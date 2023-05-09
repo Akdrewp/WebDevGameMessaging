@@ -2,6 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ChatPage from './Pages/ChatPage';
 import LoginPage from './Pages/LoginPage';
+import RegisterPage from './Pages/RegisterPage';
 import { Routes, Route } from "react-router-dom";
 
 
@@ -25,7 +26,7 @@ function App() {
         </div>
       </header>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/messages" element={<ChatPage />} />
       </Routes>

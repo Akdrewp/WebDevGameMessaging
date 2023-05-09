@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 
-function Register() {
+function RegisterPage() {
     return (
         <Container fluid className="main-content">
             <Row>
@@ -31,6 +31,7 @@ function Register() {
                                 Submit
                             </Button>
                         </Form>
+                        
                     </div>
                 </Col>
             </Row>
