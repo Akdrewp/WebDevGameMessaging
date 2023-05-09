@@ -1,0 +1,76 @@
+p {
+  font-size: 5em;
+}
+
+h1 {
+  text-align: center;
+}
+
+div.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 99vh;
+}
+
+.flex-grow {
+  flex: 1;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.message-box {
+  background-color: #F9F5EB;
+}
+
+.message-input {
+  flex-basis: content;
+}
+
+div.input-group {
+  padding: 0;
+}
+
+.user-form-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.user-form {
+  padding: 1em;
+  background-color: white;
+}
+
+@media (min-width: 505px) {
+  .user-form {
+    padding: 1em;
+    background-color: white;
+    min-width: 400px;
+  }
+}
+
+.message-view {
+  flex: 2;
+  background-color: #E4DCCF;
+  margin: 5px 0px 5px 0px;
+}
+
+div.main-content {
+  justify-content: center;
+  background-color: #f5f5f5;
+  margin: 0 auto;
+  flex: 1;
+  padding: 0;
+  align-items: stretch;
+  display: flex;
+  max-width: 1400px;
+}
+
+div.row {
+  color: rgb(0, 0, 0);
+  flex: 1;
+}
