@@ -16,6 +16,10 @@ div.App {
   flex: 1;
 }
 
+.form-footer {
+  display: flex;
+}
+
 .flex-column {
   display: flex;
   flex-direction: column;

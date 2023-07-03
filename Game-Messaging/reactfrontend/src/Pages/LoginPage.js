@@ -26,6 +26,10 @@ function LoginPage() {
                                 Submit
                             </Button>
                         </Form>
+                        <div className="form-footer">
+                            <p className="small">Don't have an account? &nbsp;</p>
+                            <a href="/register" rel="noreferrer" className="small">Create one</a>
+                        </div>
                     </div>
                 </Col>
             </Row>
