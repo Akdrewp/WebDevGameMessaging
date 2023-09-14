@@ -4,17 +4,21 @@ import Col from 'react-bootstrap/Col';
 import Button from "react-bootstrap/Button";
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 
 function RegisterPage() {
-    const [ form, setForm ] = useState({
-        email: null,
-        username: null,
-        password: null,
+    const [ serverResponseErrors, setResponseErrors ] = useState({
+        email: "",
+        username: "",
+        password: "",
     });
 
     const [validated, setValidated] = useState(false);
+
+    useEffect(() => {
+        console.log(serverResponseErrors)
+    }, [serverResponseErrors])
 
     const { register, handleSubmit, control, watch, formState: { errors } } = useForm({
         // shouldUseNativeValidation: true,
@@ -22,7 +26,7 @@ function RegisterPage() {
 
     const onSubmit = async (data) => {
         console.log(JSON.stringify(data))
-        const serverResponse =  await fetch("http://localhost:8080/register", {
+        var serverResponse =  await fetch("http://localhost:8080/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -33,10 +37,29 @@ function RegisterPage() {
             console.log(error);
         });
 
-        console.log( await serverResponse.json());
-    }
+        var responseStatus = serverResponse.status
+        serverResponse = await serverResponse.json();
 
-    // console.log(watch("username"));
+        console.log(serverResponse.error);
+
+        if (responseStatus === 409) {
+            var updatedErrors = {
+                email: "",
+                username: "",
+                password: "",
+            }
+            serverResponse.error.forEach(element => {
+                serverResponse.error.forEach(element => {
+                    var [key, value] = Object.entries(element)[0];
+                    updatedErrors[key] = value;
+                  });
+            });
+            setResponseErrors(prevErrors => ({
+                ...prevErrors,
+                ...updatedErrors
+            }));
+        }
+    }
 
     return (
         <Container fluid className="main-content">
@@ -46,8 +69,7 @@ function RegisterPage() {
                         <Form noValidate className="user-form border border-1 border-dark"  validated={validated} onSubmit={handleSubmit(onSubmit)}>
                             <p className="border-bottom border-2">Register</p>
 
-                            <Form.Group
-                            className="mb-3" 
+                            <Form.Group className="mb-3" 
                             {...register("email", { 
                                 required: "email is required", 
                                 maxLength: { value: 320, message: "Max length is 320" }, 
@@ -61,9 +83,9 @@ function RegisterPage() {
                                     <Form.Control onChange={onChange} value={value} ref={ref}
                                     type="text"
                                     placeholder="Enter email"                          
-                                    isInvalid={errors.email} />)} />
+                                    isInvalid={errors.email || serverResponseErrors.email} />)} />
                                 <Form.Control.Feedback type="invalid">
-                                    {errors.email?.message}
+                                    {errors.email?.message || serverResponseErrors.email}
                                 </Form.Control.Feedback>
                             </Form.Group>
 
@@ -81,9 +103,9 @@ function RegisterPage() {
                                     <Form.Control onChange={onChange} value={value} ref={ref}
                                     type="text"
                                     placeholder="Enter username"                          
-                                    isInvalid={errors.username} />)} />
+                                    isInvalid={errors.username || serverResponseErrors.username} />)} />
                                 <Form.Control.Feedback type="invalid">
-                                    {errors.username?.message}
+                                    {errors.username?.message || serverResponseErrors.username}
                                 </Form.Control.Feedback>
                             </Form.Group>
 
@@ -101,11 +123,12 @@ function RegisterPage() {
                                     <Form.Control onChange={onChange} value={value} ref={ref}
                                     type="password"
                                     placeholder="Enter password"                          
-                                    isInvalid={errors.password} />)} />
+                                    isInvalid={errors.password || serverResponseErrors.password} />)} />
                                 <Form.Control.Feedback type="invalid">
-                                    {errors.password?.message}
+                                    {errors.password?.message || serverResponseErrors.password}
                                 </Form.Control.Feedback>
                             </Form.Group>
+                            
                             <Button variant="primary" type="submit">
                                 Submit
                             </Button>
